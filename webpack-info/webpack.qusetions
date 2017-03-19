@@ -1,0 +1,71 @@
+webpack.qusetions
+==============================================================================================================================================
+webpack实现多页面思路
+WEBPACK CREATE
+webpack 实现多页面思路，主要是通过html-webpack-plugin这个组件来进行产生HTML的，
+例子如下：
+1.创建立一个webpack.config.js 这一个文件主要是配置webpack项的。
+2.再创建一个webpack.dev.js生产HTML和往config.js文件中push plugin插件的，创建HTML的思路大致如下
+	(1). var pageNames = Object.keys(config.entry); 先拿到config.js文件下的entry里面配置的文件名。
+	(2). 然后再通过循环根据文件名进行创建HTML，然后再push到config.js文件的plugins插件数组对象里面去，代码如下：
+		 var pageNames = Object.keys(config.entry);
+		 Array.from(pageNames).map((page) => {
+		  filename = config.entry[page] + '.html';
+		  pageName = page + '.html';
+		  var htmlWebpackPlugin = new HtmlWebpackPlugin({
+			filename: pageName,
+			template: path.resolve(__dirname + '/Al-Flexible/', '.' + filename),
+			chunks: [page],
+			cache: false,
+			inject: true,
+			minify: {
+			  removeComments: true,
+			  collapseWhitespace: true,
+			  removeAttributeQuotes: true
+			}
+		  });
+		  console.log('有执行到这里吗?');
+		  console.log(htmlWebpackPlugin);
+		  config.plugins.push(htmlWebpackPlugin);
+		 });
+3.再创建一个dev.server.js文件，这个文件主要是webpack-dev-server开发环境的配置.
+==============================================================================================================================================
+WEBPACK SETTING
+1.如何支持公共JS的使用, 如jQuery...
+---只需要在plugins数据对象当中，用webpack.ProvidePlugin添加就可以：
+plugins:[
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            "window.jQuery": 'jquery'
+        })
+    ]
+
+
+
+
+
+==============================================================================================================================================
+WEBPACK ERROR INFO
+1. webpack.optimize.OccurenceOrderPlugin is not a constructor
+---上个版本拼写错误，少写了一个字母r，新版本修正过来了。要写成这样：OccurrenceOrderPlugin。
+
+2.WARNING in webpack: Using NoErrorsPlugin is deprecated.
+  Use NoEmitOnErrorsPlugin instead.
+---同样都还是版本的差异把NoErrorsPlugin替换成NoEmitOnErrorsPlugin即可
+
+3.ERROR in   Error: Child compilation failed:
+  Entry module not found: Error: Can't resolve 'F:\VSC_Files\views\main\index.html' in 'F:\VSC_Files\Al-Flexible':
+  Error: Can't resolve 'F:\VSC_Files\views\main\index.html' in 'F:\VSC_Files\Al-Flexible'
+---看一下配置文件的entry的路径是否有误或者在HtmlWebpackPlugin创建HTML的时候，template这个参数的路径是否有错。
+
+4. node-sass报错Module build failed: Error: ENOENT: no such file or directory, scandir 'F:\VSC_Files\coolpad_global_website\node_modules\node-sass\vendor'
+---- SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install node-sass, 采用淘宝镜像安装
+
+==============================================================================================================================================
+
+
+
+
+
+
