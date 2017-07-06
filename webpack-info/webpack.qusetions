@@ -65,7 +65,53 @@ WEBPACK ERROR INFO
 ==============================================================================================================================================
 
 
+webpack 配置
+===========================================================================================================================
+插件作用、npm官网查询
+inline-resource-plugin： 如页面添加<script src="xxx" inline></script>  当生成页面时候，将外部引用的JS编译成行内引用
+html-webpack-plugin: webpack生成一个HTML文件，只需要提供自己的模版
+extract-text-webpack-plugin：如在页面的JS中引入scss,那么这一个模块就可以单独提取出来添加到页面当中
+css-split-webpack-plugin： 如果CSS文件较大，这个插件可以分割css文件
+babel-loader： 编译ES6
+babel-preset-es2015： 编译ES6的转码规则
+url-loader: 打包图片
 
+webpack支持Import 
+--{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+
+
+
+
+
+
+===========================================================================================================================
+webpack 内部方法
+webpack.optimize.CommonsChunkPlugin： 提取公共模块用的
+webpack.optimize.UglifyJsPlugin： 压缩打包用的
+
+
+
+
+===============================================================================================================================
+公共代码提取：
+1.chunks 则是entry入口的一个对应项，如果没有指定，则打包全部的入口项
+new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      chunks: ['vendor'],
+      filename: 'static/js/[name].tt.js'
+  });
+  
+2.只要在entry里面配置了，都会编译出JS
+3.entry里面的子项都可以是数组，或者对象，数组的索引就是各个模块的路径，对象属性出同样是模块的路径
+
+======================================================================================================================================
+报错：
+1.ERROR in   TypeError: $export is not a function
+---babel-loader对象里面加上exclude: [/node_modules/]
 
 
 

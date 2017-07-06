@@ -1,0 +1,4 @@
+活动本地访问： http://localhost:9006/pc_xxx.html
+测试领取优惠券接口PC：http://mall.zeusis.org/product/handout-coupon
+测试领取优惠券接口Mobille：http://test.mall.zeusis.org/api/product/handout-coupon
+ 

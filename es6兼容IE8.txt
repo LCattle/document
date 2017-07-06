@@ -1,0 +1,5 @@
+es6 兼容IE8
+
+1. export.default 在IE8中执行不了，换成export {xx}
+
+2.IE8 不支持对象里面的属性存在关建字如： class
