@@ -3,3 +3,13 @@ vue 获取window对象---》
 	-- 1.x 版本需放到ready方法里面
 	-- 2.x 版本需要放到mounted方法里面
 	两个方法都是VUE初始化完之后
+
+
+1.对每个页面进行导航的高亮（elemenu-ui :default-active="activeNav"）：
+	在nav组件计算属性中，进行操作， computed: {
+    activeNav() {
+      let tempPath = this.$route.path;
+      let paths = tempPath.split('/');
+      return ('/' + paths[1])
+    }
+  },
